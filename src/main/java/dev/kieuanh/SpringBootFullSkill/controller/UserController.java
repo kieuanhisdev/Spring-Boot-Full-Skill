@@ -1,6 +1,7 @@
 package dev.kieuanh.SpringBootFullSkill.controller;
 
 import dev.kieuanh.SpringBootFullSkill.dto.request.UserRequestDTO;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,17 +21,17 @@ public class UserController {
     }
 
     @PostMapping(value = "/", headers = "apiKey=v1.0")
-    public String addUser( @RequestBody UserRequestDTO userRequestDTO){
+    public String addUser(@Valid @RequestBody UserRequestDTO userRequestDTO){
         return "Added User";
     }
 
     @PutMapping("/{userId}")
-    public String updateUser(@PathVariable("userId") int id, @RequestBody UserRequestDTO userRequestDTO){
+    public String updateUser(@PathVariable("userId") int id,@Valid @RequestBody UserRequestDTO userRequestDTO){
         return "Updated User" + id;
     }
 
     @PatchMapping("/{userId}")
-    public String patchUser(@PathVariable("userId") int id, @RequestBody UserRequestDTO userRequestDTO, @RequestParam(required = false) boolean status){
+    public String patchUser(@PathVariable("userId") int id,@Valid @RequestBody UserRequestDTO userRequestDTO, @RequestParam(required = false) boolean status){
         return "Updated User" + id;
     }
 
