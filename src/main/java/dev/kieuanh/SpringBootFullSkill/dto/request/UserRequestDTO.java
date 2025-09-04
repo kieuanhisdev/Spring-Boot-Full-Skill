@@ -1,13 +1,15 @@
 package dev.kieuanh.SpringBootFullSkill.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import dev.kieuanh.SpringBootFullSkill.util.PhoneNumber;
+import dev.kieuanh.SpringBootFullSkill.util.*;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import static dev.kieuanh.SpringBootFullSkill.util.Gender.*;
 
 public class UserRequestDTO implements Serializable {
     @NotBlank(message = "firstName không được null, không được rỗng, và không chỉ chứa khoảng trắng.")
@@ -28,7 +30,34 @@ public class UserRequestDTO implements Serializable {
     @NotEmpty
     List<String> permissions;
 
+    //NEU LA ENUM THI SE KO DUNG @patter dc
+    @EnumPattern(name = "status", regexp = "ACTIVE|INACTIVE|NONE")
+    private UserStatus status;
+
+    @GenderSubset(anyOf = {MALE, FEMALE, OTHER})
+    private Gender gender;
+
+    @NotNull(message = "type must be not null")
+    @EnumValue(name = "type", enumClass = UserType.class)
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public UserRequestDTO() {
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public UserRequestDTO(String firstName, String lastName, String email, String phone) {
@@ -83,5 +112,21 @@ public class UserRequestDTO implements Serializable {
     }
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 }
